@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "chat-toolkit"
+version = "0.1.0"
+description = "Extensible package for creating machine learning powered chatbots."
+authors = ["danb27 <danbianchini@outlook.com>"]
+readme = "README.md"
+packages = [{include = "chat_toolkit"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+openai = "~0.27"
+sounddevice = "~0.4"
+soundfile = "~0.12"
+loguru = "^0.6.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "~3.1"
+
+[tool.poetry.group.flake.dependencies]
+flake8 = "5.0.4"
+flake8-bandit = "4.1.1"
+flake8-bugbear = "23.2.13"
+flake8-builtins = "2.1.0"
+flake8-comprehensions = "3.10.1"
+flake8-eradicate = "1.4.0"
+flake8-functions = "0.0.7"
+flake8-gl-codeclimate = "0.2.1"
+flake8-logging-format = "0.9.0"
+flake8-pyproject = "1.2.2"
+flake8-variables-names = "0.0.5"
+pep8-naming = "0.13.3"
+tryceratops = "1.1.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "7.1.3"
+pytest-cov = "2.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+ignore = ["W503"]
+max-line-length = 79
+exclude = [
+    ".git", ".venv", ".pyenv", "pytest_cache", "__pycache__", "idea",
+    ".vscode", "venv", "notebooks", ".ipynb_checkpoints"
+]
+per-file-ignores = """
+    test_suite/*: S101
+"""
+
+[tool.vulture]
+paths = ["chat_toolkit"]
+min_confidence = 80
+
+[tool.isort]
+line_length = 79
+profile = "black"
+
+[tool.black]
+line-length = 79
+target-version = ["py39"]
+
+[tool.mypy]
+python_version = "3.9"
+explicit_package_bases = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--cov=chat_toolkit"
+]
+pythonpath = "."
+testpaths = "test_suite/unit/"
