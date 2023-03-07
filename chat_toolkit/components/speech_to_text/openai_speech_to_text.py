@@ -127,7 +127,6 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
                 ):
                     print("\n\tRecording... Press Ctrl+C to finish speaking.")
                     while True:
-                        logger.info(audio_file)
                         audio_file.write(queue.get())
         except KeyboardInterrupt:
             self._seconds_transcribed += ceil(

@@ -13,6 +13,8 @@
 
 Extensible package for creating machine learning powered chatbots.
 
+**NOTE**: Linux users may need to install PortAudio. Please check their documentation for the best way to install on your system.
+
 ## Quick Usage
 
 The main script has been provided for convenience. This allows you to easily
