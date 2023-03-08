@@ -3,8 +3,10 @@ from typing import Union
 
 import openai
 
-from chat_toolkit.base.chatbot_component_base import ChatbotComponentBase
 from chat_toolkit.common.custom_types import StartingPromptsType
+from chat_toolkit.components.chatbots.chatbot_component_base import (
+    ChatbotComponentBase,
+)
 
 logger = logging.getLogger()
 

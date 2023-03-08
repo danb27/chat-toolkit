@@ -13,7 +13,9 @@
 
 Extensible package for creating machine learning powered chatbots.
 
-**NOTE**: Linux users may need to install PortAudio. Please check their documentation for the best way to install on your system.
+**NOTE**: Linux users may need to install PortAudio. Please check their 
+documentation for the best way to install on your system. For Ubuntu
+users, `sudo apt-get install libportaudio2` should do the trick. 
 
 ## Quick Usage
 
@@ -23,20 +25,27 @@ start a conversation in your terminal.
 Usage:
 
 ```
-usage: __main__.py [-h] [--chatbot {chatgpt}] [--speech-to-text {whisper}]
-
-options:
-  -h, --help                    show this help message and exit
-  --chatbot {chatgpt}           Chatbot to use. Default: chatgpt.
-  --speech-to-text {whisper}    Speech to text model to use. Default: None.
+usage: A script for quickly starting a conversation in your terminal. [-h] [--chatbot {chatgpt}] [--speech-to-text [{whisper}]]                       
+                                                                                                                                                      
+optional arguments:                                                                                                                                   
+  -h, --help                        show this help message and exit                                                                                               
+  --chatbot {chatgpt}               Chatbot to use. Default: chatgpt.                                                                                             
+  --speech-to-text [{whisper}]      Speech to text model to use. Without additional arguments, defaults to whisper. Defaults to None when argument is not present.
 ```
 
-To quickly start up a TextToTextOrchestrator: `python -m chat_toolkit`
-OR `python -m chat_toolkit --chatbot chatgpt`
+To quickly start up a TextToTextOrchestrator (both are equivalent):
 
-To quickly start up a
-SpeechToTextOrchestrator: `python -m chat_toolkit --speech-to-text whisper`
-OR `python -m chat_toolkit --chatbot chatgpt --speech-to-text whisper`
+`python -m chat_toolkit`
+OR
+`python -m chat_toolkit --chatbot chatgpt`
+
+To quickly start up a SpeechToTextOrchestrator (all are equivalent):
+
+`python -m chat_toolkit --speech-to-text`
+OR
+`python -m chat_toolkit --speech-to-text whisper`
+OR 
+`python -m chat_toolkit --chatbot chatgpt --speech-to-text whisper`
 
 ## Components
 

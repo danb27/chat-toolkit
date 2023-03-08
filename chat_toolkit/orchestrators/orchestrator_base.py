@@ -1,9 +1,11 @@
 import json
 from abc import ABC, abstractmethod
 
-from chat_toolkit.base.chatbot_component_base import ChatbotComponentBase
-from chat_toolkit.base.component_base import ComponentBase
 from chat_toolkit.common.utils import print_banner
+from chat_toolkit.components.chatbots.chatbot_component_base import (
+    ChatbotComponentBase,
+)
+from chat_toolkit.components.component_base import ComponentBase
 
 
 class OrchestratorBase(ABC):
@@ -18,24 +20,6 @@ class OrchestratorBase(ABC):
         :param chatbot_component: Chatbot component to use.
         """
         self._chatbot_component = chatbot_component
-
-    def terminal_conversation(self) -> None:
-        """
-        Starts a conversation in the user's terminal. Wraps implementation's
-        method with greetings, error swallowing, and logic that prints cost
-        summary at the end of the conversation.
-
-        :return:
-        """
-        print("\nWelcome to the chat!")
-        try:
-            self._terminal_conversation()
-        except KeyboardInterrupt:
-            # Swallow user Keyboard Interrupts
-            pass
-        finally:
-            print("\nBye!\n")
-            self.print_cost_summary()
 
     @abstractmethod
     def _terminal_conversation(self) -> None:
@@ -56,6 +40,24 @@ class OrchestratorBase(ABC):
         :return: All components in orchestrator.
         """
         pass
+
+    def terminal_conversation(self) -> None:
+        """
+        Starts a conversation in the user's terminal. Wraps implementation's
+        method with greetings, error swallowing, and logic that prints cost
+        summary at the end of the conversation.
+
+        :return:
+        """
+        print("\nWelcome to the chat!")
+        try:
+            self._terminal_conversation()
+        except KeyboardInterrupt:
+            # Swallow user Keyboard Interrupts
+            pass
+        finally:
+            print("\nBye!\n")
+            self.print_cost_summary()
 
     def print_cost_summary(self) -> None:
         """

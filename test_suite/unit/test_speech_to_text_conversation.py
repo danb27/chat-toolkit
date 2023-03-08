@@ -1,7 +1,9 @@
 import pytest
 
-from chat_toolkit.base.chatbot_component_base import ChatbotComponentBase
-from chat_toolkit.base.speech_to_text_component_base import (
+from chat_toolkit.components.chatbots.chatbot_component_base import (
+    ChatbotComponentBase,
+)
+from chat_toolkit.components.speech_to_text.speech_to_text_component_base import (  # noqa: E501
     SpeechToTextComponentBase,
 )
 from chat_toolkit.orchestrators.speech_to_text_orchestrator import (

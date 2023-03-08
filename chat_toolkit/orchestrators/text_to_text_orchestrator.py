@@ -1,5 +1,5 @@
-from chat_toolkit.base.component_base import ComponentBase
-from chat_toolkit.base.orchestrator_base import OrchestratorBase
+from chat_toolkit.components.component_base import ComponentBase
+from chat_toolkit.orchestrators.orchestrator_base import OrchestratorBase
 
 
 class TextToTextOrchestrator(OrchestratorBase):

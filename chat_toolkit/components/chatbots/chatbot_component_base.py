@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from chat_toolkit.base.component_base import ComponentBase
 from chat_toolkit.common.custom_types import StartingPromptsType
+from chat_toolkit.components.component_base import ComponentBase
 
 
 class ChatbotComponentBase(ComponentBase, ABC):

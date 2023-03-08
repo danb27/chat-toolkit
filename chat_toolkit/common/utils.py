@@ -10,18 +10,20 @@ from loguru import logger
 from chat_toolkit.common.constants import TMP_DIR
 
 
-def print_banner(text: str) -> None:
+def print_banner(text: str, indent: int = 0) -> None:
     """
     Print a banner in the terminal.
 
     :param text: Text to wrap in a banner of pound signs.
+    :param indent: How many characters to indent every line.
     :return:
     """
     len_text = len(text)
+    indent_str = " " * indent
     print("\n\n")
-    print("#" * (len_text + 8))
-    print(f"##  {text}  ##")
-    print("#" * (len_text + 8))
+    print(f"{indent_str}{'#' * (len_text + 8)}")
+    print(f"{indent_str}##  {text}  ##")
+    print(f"{indent_str}{'#' * (len_text + 8)}")
     print("\n")
 
 

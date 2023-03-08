@@ -10,6 +10,7 @@ from chat_toolkit.common.utils import (
 )
 from test_suite.unit.conftest import (
     CHATBOT_MODEL_TYPES,
+    TEST_TEXT,
     OpenAISpeechToTextFactoryType,
     TypeMatcher,
 )
@@ -121,7 +122,7 @@ def test_transcribe(
     with temporary_file(
         "wav", tmp_file_directory=speech_to_text.tmp_file_directory
     ) as tmp:
-        assert "foo" == speech_to_text.transcribe(tmp)
+        assert TEST_TEXT, {} == speech_to_text.transcribe(tmp)
 
 
 @pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)
@@ -135,6 +136,7 @@ def test_record_unspecified_length_audio_sad(
     during recording.
     """
     speech_to_text = patched_openai_speech_to_text_factory(model)
+    monkeypatch.setattr(speech_to_text, "_wait_for_recording_to_start", Mock())
     monkeypatch.setattr(
         "sounddevice.InputStream", Mock(side_effect=KeyboardInterrupt())
     )

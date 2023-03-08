@@ -1,7 +1,7 @@
 import importlib
 from typing import Union
 
-from chat_toolkit.base.orchestrator_base import OrchestratorBase
+from chat_toolkit.orchestrators.orchestrator_base import OrchestratorBase
 from chat_toolkit.orchestrators.speech_to_text_orchestrator import (
     SpeechToTextOrchestrator,
 )
@@ -61,7 +61,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--speech-to-text",
         type=str,
-        help="Speech to text model to use. Default: None.",
+        help="Speech to text model to use. Without additional "
+             "arguments, defaults to whisper. Defaults to None when argument "
+             "is not present.",
+        nargs="?",
+        const="whisper",
         default=None,
         choices=("whisper",),
     )

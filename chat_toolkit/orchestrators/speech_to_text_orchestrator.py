@@ -1,9 +1,11 @@
-from chat_toolkit.base.chatbot_component_base import ChatbotComponentBase
-from chat_toolkit.base.component_base import ComponentBase
-from chat_toolkit.base.orchestrator_base import OrchestratorBase
-from chat_toolkit.base.speech_to_text_component_base import (
+from chat_toolkit.components.chatbots.chatbot_component_base import (
+    ChatbotComponentBase,
+)
+from chat_toolkit.components.component_base import ComponentBase
+from chat_toolkit.components.speech_to_text.speech_to_text_component_base import (  # noqa: E501
     SpeechToTextComponentBase,
 )
+from chat_toolkit.orchestrators.orchestrator_base import OrchestratorBase
 
 
 class SpeechToTextOrchestrator(OrchestratorBase):

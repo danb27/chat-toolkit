@@ -13,6 +13,7 @@ from chat_toolkit.components.speech_to_text.openai_speech_to_text import (
 CHATBOT_MODEL_TYPES = ("gpt-3.5-turbo",)
 SPEECH_TO_TEXT_MODEL_TYPES = ("whisper-1",)
 
+TEST_TEXT = "foo"
 
 OpenAIChatbotFactoryType = Callable[..., OpenAIChatBot]
 OpenAISpeechToTextFactoryType = Callable[..., OpenAISpeechToText]
@@ -120,7 +121,7 @@ def patched_openai_speech_to_text(
     """
     monkeypatch.setattr(
         "openai.Audio.transcribe",
-        Mock(return_value={"text": "foo"}),
+        Mock(return_value={"text": TEST_TEXT}),
     )
     monkeypatch.setattr(
         "sounddevice.query_devices",
@@ -145,7 +146,7 @@ def patched_openai_speech_to_text_factory(
         device: Union[int, str] = 0,
     ) -> OpenAISpeechToText:
         if isinstance(pricing_rate, float):
-            return OpenAISpeechToText(model, pricing_rate, device, tmp_path)
+            return OpenAISpeechToText(model, pricing_rate, device, 2, tmp_path)
 
         return OpenAISpeechToText(
             model, device=device, tmp_file_directory=tmp_path

@@ -1,6 +1,8 @@
 import pytest
 
-from chat_toolkit.base.chatbot_component_base import ChatbotComponentBase
+from chat_toolkit.components.chatbots.chatbot_component_base import (
+    ChatbotComponentBase,
+)
 from chat_toolkit.orchestrators.text_to_text_orchestrator import (
     TextToTextOrchestrator,
 )
