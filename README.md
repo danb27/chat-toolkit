@@ -122,8 +122,8 @@ same type, or a custom-built one, and still be able to use the orchestrator.
 Basic usage:
 
 ```python
-from chat_toolkit.components import OpenAIChatBot
-from chat_toolkit.orchestrators import TextToTextOrchestrator
+from chat_toolkit import OpenAIChatBot
+from chat_toolkit import TextToTextOrchestrator
 
 chat = TextToTextOrchestrator(OpenAIChatBot())
 chat.terminal_conversation()
@@ -134,8 +134,8 @@ chat.terminal_conversation()
 Basic usage:
 
 ```python
-from chat_toolkit.components import OpenAIChatBot, OpenAISpeechToText
-from chat_toolkit.orchestrators import SpeechToTextOrchestrator
+from chat_toolkit import OpenAIChatBot, OpenAISpeechToText
+from chat_toolkit import SpeechToTextOrchestrator
 
 chat = SpeechToTextOrchestrator(OpenAIChatBot(), OpenAISpeechToText())
 chat.terminal_conversation()
