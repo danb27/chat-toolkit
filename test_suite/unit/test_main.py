@@ -13,10 +13,11 @@ from chat_toolkit.__main__ import COMPONENTS, main
     "speech_to_text_model",
     list(COMPONENTS["speech_to_text"].keys()) + [None],
 )
-def test_easy_terminal_session_imports(
+def test_main(
     chatbot_model: str,
     speech_to_text_model: str,
     monkeypatch: pytest.MonkeyPatch,
+    patched_openai_speech_to_text: None,
 ) -> None:
     """
     Test that errors are not raised when setting up the orchestrator
