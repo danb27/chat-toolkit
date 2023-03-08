@@ -114,7 +114,7 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
             ):
                 self._wait_for_recording_to_start()
                 print(
-                    "\t\tRecording...",
+                    "\tRecording...",
                 )
                 while True:
                     audio_file.write(queue.get())
