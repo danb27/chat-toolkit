@@ -1,3 +1,4 @@
+from collections import defaultdict
 from pathlib import Path
 from typing import Union
 from unittest.mock import Mock
@@ -132,11 +133,17 @@ def test_record_unspecified_length_audio_sad(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """
-    Test that the correct error is raised when the user KeyboardInterrupts
-    during recording.
+    Test that the correct error is raised when the user stops recording.
     """
     speech_to_text = patched_openai_speech_to_text_factory(model)
     monkeypatch.setattr(speech_to_text, "_wait_for_recording_to_start", Mock())
+    # overwrite this mock to allow for using arbitrary keys
+    monkeypatch.setattr(
+        "sounddevice.query_devices",
+        Mock(return_value=defaultdict(int)),
+    )
+    monkeypatch.setattr("keyboard.wait", Mock())
+    monkeypatch.setattr("keyboard.is_pressed", lambda _: False)
 
     with pytest.raises(RecordingEndedWithKeyboardSignal):
         with temporary_file(

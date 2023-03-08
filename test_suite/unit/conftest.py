@@ -123,6 +123,10 @@ def patched_openai_speech_to_text(
         "openai.Audio.transcribe",
         Mock(return_value={"text": TEST_TEXT}),
     )
+    monkeypatch.setattr(
+        "sounddevice.query_devices",
+        Mock(return_value={"default_samplerate": "44100"}),
+    )
 
 
 @pytest.fixture

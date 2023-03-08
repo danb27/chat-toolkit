@@ -31,10 +31,6 @@ def test_init(
     """
     Test that instantiation occurs as expected
     """
-    monkeypatch.setattr(
-        "sounddevice.query_devices",
-        Mock(return_value={"default_samplerate": "44100"}),
-    )
     chatbot = patched_openai_chatbot_factory(chatbot_model)
     speech_to_text = patched_openai_speech_to_text_factory(
         speech_to_text_model

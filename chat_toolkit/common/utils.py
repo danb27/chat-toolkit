@@ -29,8 +29,7 @@ def print_banner(text: str, indent: int = 0) -> None:
 
 class RecordingEndedWithKeyboardSignal(Exception):  # noqa: N818
     """
-    Raised in place of KeyboardInterrupt when CTRL+C's to end a recording.
-    Allows others KeyboardInterrupt to be caught differently.
+    Signifies a user has requested recording stop
     """
 
     pass
