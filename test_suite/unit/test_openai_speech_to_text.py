@@ -137,9 +137,6 @@ def test_record_unspecified_length_audio_sad(
     """
     speech_to_text = patched_openai_speech_to_text_factory(model)
     monkeypatch.setattr(speech_to_text, "_wait_for_recording_to_start", Mock())
-    monkeypatch.setattr(
-        "sounddevice.InputStream", Mock(side_effect=KeyboardInterrupt())
-    )
 
     with pytest.raises(RecordingEndedWithKeyboardSignal):
         with temporary_file(

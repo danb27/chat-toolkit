@@ -15,6 +15,7 @@ soundfile = "~0.12"
 loguru = "^0.6.0"
 numpy = "^1.24.2"
 keyboard = "^0.13.5"
+pytest-cov = "^4.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "~3.1"
@@ -36,7 +37,6 @@ tryceratops = "1.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.0"
-pytest-cov = "2.10.0"
 
 [build-system]
 requires = ["poetry-core"]

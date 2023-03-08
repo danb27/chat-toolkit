@@ -119,13 +119,11 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                 while True:
                     audio_file.write(queue.get())
                     if not keyboard.is_pressed("space"):
-                        break
-
-            print("\tRecording stopped.")
-            self._seconds_transcribed += ceil(
-                audio_file.frames / self.sample_rate
-            )
-            raise RecordingEndedWithKeyboardSignal
+                        print("\tRecording stopped.")
+                        self._seconds_transcribed += ceil(
+                            audio_file.frames / self.sample_rate
+                        )
+                        raise RecordingEndedWithKeyboardSignal
 
     @staticmethod
     def _wait_for_recording_to_start() -> None:
