@@ -50,6 +50,8 @@ class OrchestratorBase(ABC):
         :return:
         """
         print("\nWelcome to the chat!")
+        print("Ctrl+C or send an empty message at any point to exit.")
+
         try:
             self._terminal_conversation()
         except KeyboardInterrupt:

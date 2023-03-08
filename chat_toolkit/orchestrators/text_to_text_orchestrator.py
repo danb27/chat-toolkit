@@ -16,7 +16,7 @@ class TextToTextOrchestrator(OrchestratorBase):
         """
         start_prompt = input("\nEnter a start prompt (Leave blank to skip): ")
         self._chatbot_component.prompt_chatbot(start_prompts=start_prompt)
-        while user_input := input("\nUser (Leave blank to exit): "):
+        while user_input := input("\nUser: "):
             chatbot_response, _ = self._chatbot_component.send_message(
                 user_input
             )
