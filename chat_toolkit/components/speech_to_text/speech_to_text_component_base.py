@@ -98,28 +98,29 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                 )
             queue.put(indata.copy())
 
-        try:
-            # Make sure the file is opened before recording anything:
-            with sf.SoundFile(
-                file_path,
-                mode="w+b",
+        # Make sure the file is opened before recording anything:
+        with sf.SoundFile(
+            file_path,
+            mode="w+b",
+            samplerate=self.sample_rate,
+            channels=self._channels,
+            closefd=False,
+        ) as audio_file:
+            with sd.InputStream(
                 samplerate=self.sample_rate,
+                device=self.device,
                 channels=self._channels,
-                closefd=False,
-            ) as audio_file:
-                with sd.InputStream(
-                    samplerate=self.sample_rate,
-                    device=self.device,
-                    channels=self._channels,
-                    callback=_callback,
-                ):
-                    self._wait_for_recording_to_start()
-                    print(
-                        "\t\tRecording... Press Ctrl+C to finish speaking.",
-                    )
-                    while True:
-                        audio_file.write(queue.get())
-        except KeyboardInterrupt:
+                callback=_callback,
+            ):
+                self._wait_for_recording_to_start()
+                print(
+                    "\t\tRecording...",
+                )
+                while True:
+                    audio_file.write(queue.get())
+                    if not keyboard.is_pressed("space"):
+                        break
+
             print("\tRecording stopped.")
             self._seconds_transcribed += ceil(
                 audio_file.frames / self.sample_rate
@@ -133,7 +134,7 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
 
         :return:
         """
-        print("\n\tPress space to record...")
+        print("\n\tHold space to record...")
         keyboard.wait("space")
 
     @property
