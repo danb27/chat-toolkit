@@ -4,7 +4,7 @@ from .orchestrators import SpeechToTextOrchestrator, TextToTextOrchestrator
 
 set_openai_api_key()
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 __all__ = (
     "set_openai_api_key",

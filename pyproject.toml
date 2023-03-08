@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chat-toolkit"
-version = "1.0.0"
+version = "1.0.1"
 description = "Extensible package for creating machine learning powered chatbots."
 authors = ["danb27 <danbianchini@outlook.com>"]
 readme = "README.md"
