@@ -35,7 +35,7 @@ class SpeechToTextOrchestrator(OrchestratorBase):
                 0
             ]
         ):
-            print(f"\nUser (Say nothing to exit): {user_input}")
+            print(f"\nUser: {user_input}")
             chatbot_response, _ = self._chatbot_component.send_message(
                 user_input
             )
