@@ -45,7 +45,11 @@ def temporary_file(
     """
     Context manager for creating a temporary file and (optionally) removing it
     after it is done being used. Useful when working with OpenAI's API,
-    for example, where using temporary files caused issues.
+    for example, where using temporary files caused issues:
+
+        > openai.error.InvalidRequestError: Invalid file format.
+        > Supported formats: ['m4a', 'mp3', 'webm', 'mp4', 'mpga',
+        > 'wav', 'mpeg']
 
     :param ending: Desired file ending.
     :param delete_after: Whether to delete the file after it is done being
@@ -66,6 +70,11 @@ def temporary_file(
 
 
 def set_openai_api_key():
+    """
+    Set API key and warn if not set.
+
+    :return:
+    """
     openai.api_key = os.environ.get("OPENAI_API_KEY", "")
 
     if not openai.api_key:
