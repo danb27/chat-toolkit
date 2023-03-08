@@ -5,6 +5,7 @@ from pathlib import Path
 from queue import Queue
 from typing import Union
 
+import keyboard
 import sounddevice as sd
 import soundfile as sf
 from loguru import logger
@@ -12,7 +13,6 @@ from loguru import logger
 from chat_toolkit.common.constants import TMP_DIR
 from chat_toolkit.common.utils import (
     RecordingEndedWithKeyboardSignal,
-    print_banner,
     temporary_file,
 )
 from chat_toolkit.components.component_base import ComponentBase
@@ -98,8 +98,6 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                 )
             queue.put(indata.copy())
 
-        self._wait_for_recording_to_start()
-
         try:
             # Make sure the file is opened before recording anything:
             with sf.SoundFile(
@@ -115,13 +113,14 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                     channels=self._channels,
                     callback=_callback,
                 ):
-                    print_banner(
-                        "Recording... Press Ctrl+C to finish speaking.",
-                        indent=4,
+                    self._wait_for_recording_to_start()
+                    print(
+                        "\t\tRecording... Press Ctrl+C to finish speaking.",
                     )
                     while True:
                         audio_file.write(queue.get())
         except KeyboardInterrupt:
+            print("\tRecording stopped.")
             self._seconds_transcribed += ceil(
                 audio_file.frames / self.sample_rate
             )
@@ -134,12 +133,8 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
 
         :return:
         """
-        print_banner("Press Ctrl+C to start recording...")
-        try:
-            while True:
-                continue
-        except KeyboardInterrupt:
-            return
+        print("\n\tPress space to record...")
+        keyboard.wait("space")
 
     @property
     def seconds_transcribed(self) -> int:

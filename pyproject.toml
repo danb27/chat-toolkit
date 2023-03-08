@@ -14,6 +14,7 @@ sounddevice = "~0.4"
 soundfile = "~0.12"
 loguru = "^0.6.0"
 numpy = "^1.24.2"
+keyboard = "^0.13.5"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "~3.1"
