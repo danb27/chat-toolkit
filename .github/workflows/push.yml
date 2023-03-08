@@ -1,12 +1,13 @@
-# This workflow will install Python dependencies, and run tests with a
-# variety of Python versions
+# This workflow will run multiple jobs in parallel on any commit pushed to
+# remote.
 
-name: Test Package
+name: Test Package and Lint
 
 on: push
 
 jobs:
-  test-package:
+  # Run unit tests
+  tests:
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -34,3 +35,17 @@ jobs:
       run: |
         source .venv/bin/activate
         pytest
+
+  # Run hooks with pre-commit
+  pre-commit:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.9"
+    - name: Run pre-commit hooks
+      uses: pre-commit/action@v3.0.0

@@ -62,8 +62,8 @@ if __name__ == "__main__":
         "--speech-to-text",
         type=str,
         help="Speech to text model to use. Without additional "
-             "arguments, defaults to whisper. Defaults to None when argument "
-             "is not present.",
+        "arguments, defaults to whisper. Defaults to None when argument "
+        "is not present.",
         nargs="?",
         const="whisper",
         default=None,
