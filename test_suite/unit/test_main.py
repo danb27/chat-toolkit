@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from chat_toolkit.__main__ import main, COMPONENTS
+from chat_toolkit.__main__ import COMPONENTS, main
 
 
 @pytest.mark.parametrize(
@@ -14,9 +14,9 @@ from chat_toolkit.__main__ import main, COMPONENTS
     list(COMPONENTS["speech_to_text"].keys()) + [None],
 )
 def test_easy_terminal_session_imports(
-        chatbot_model: str,
-        speech_to_text_model: str,
-        monkeypatch: pytest.MonkeyPatch,
+    chatbot_model: str,
+    speech_to_text_model: str,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """
     Test that errors are not raised when setting up the orchestrator
