@@ -56,8 +56,8 @@ OR
 ## Components
 
 Components are ML powered objects that accomplish tasks. Components should be
-able to estimate session costs. You can build your own components to use in 
-isolation or as part of an orchestrator object. 
+able to estimate session costs. You can build your own components to use in
+isolation or as part of an orchestrator object.
 
 **NOTE**: Cost estimates are based on pricing rates provided by the user. Users
 should do their own due dilligence and are responsible for their own costs and
@@ -110,8 +110,8 @@ text, _ = speech_to_text.record_and_transcribe()
 ## Orchestrators
 
 Orchestrators are modes of chatting that orchestrate one or more components
-differently. They also allow you to chat from the terminal. Orchestrators 
-should work such that you can replace any component with another of the 
+differently. They also allow you to chat from the terminal. Orchestrators
+should work such that you can replace any component with another of the
 same type, or a custom-built one, and still be able to use the orchestrator.
 
 > Advanced Usage: You can create your own orchestration classes by
