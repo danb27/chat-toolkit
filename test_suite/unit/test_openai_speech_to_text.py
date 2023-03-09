@@ -4,15 +4,11 @@ from unittest.mock import Mock
 
 import pytest
 
-from chat_toolkit.common.utils import (
-    RecordingEndedWithKeyboardSignal,
-    temporary_file,
-)
+from chat_toolkit.common.utils import temporary_file
 from test_suite.unit.conftest import (
     CHATBOT_MODEL_TYPES,
     TEST_TEXT,
     OpenAISpeechToTextFactoryType,
-    TypeMatcher,
 )
 
 
@@ -36,36 +32,6 @@ def test_init(
     assert speech_to_text.seconds_transcribed == 0
     assert speech_to_text.sample_rate == 44100
     assert isinstance(speech_to_text.tmp_file_directory, Path)
-
-
-@pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)
-def test_record_and_transcribe_happy(
-    patched_openai_speech_to_text_factory: OpenAISpeechToTextFactoryType,
-    model: str,
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    """
-    Test that no exception is raised when user interrupts recording with a
-    KeyboardInterrupt.
-    """
-    speech_to_text = patched_openai_speech_to_text_factory(model)
-    monkeypatch.setattr(
-        speech_to_text,
-        "record_unspecified_length_audio",
-        Mock(
-            side_effect=RecordingEndedWithKeyboardSignal(
-                "Mock User Interruption"
-            )
-        ),
-    )
-    try:
-        speech_to_text.record_and_transcribe()
-    except RecordingEndedWithKeyboardSignal as e:
-        raise AssertionError from e
-
-    speech_to_text.record_unspecified_length_audio.assert_called_once_with(  # type: ignore  # noqa: E501
-        TypeMatcher(str)
-    )
 
 
 @pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)

@@ -27,14 +27,6 @@ def print_banner(text: str, indent: int = 0) -> None:
     print("\n")
 
 
-class RecordingEndedWithKeyboardSignal(Exception):  # noqa: N818
-    """
-    Signifies a user has requested recording stop
-    """
-
-    pass
-
-
 @contextmanager
 def temporary_file(
     ending: str,

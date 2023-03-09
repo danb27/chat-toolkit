@@ -4,6 +4,7 @@ from typing import Union
 import openai
 
 from chat_toolkit.common.custom_types import StartingPromptsType
+from chat_toolkit.common.utils import set_openai_api_key
 from chat_toolkit.components.chatbots.chatbot_component_base import (
     ChatbotComponentBase,
 )
@@ -34,6 +35,8 @@ class OpenAIChatBot(ChatbotComponentBase):
             model=model,
             pricing_rate=pricing_rate,
         )
+
+        set_openai_api_key()
 
         self.latest_response: Union[openai.ChatCompletion, None] = None
         self.history: list[dict] = []

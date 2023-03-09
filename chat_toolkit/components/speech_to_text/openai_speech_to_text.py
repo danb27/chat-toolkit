@@ -5,6 +5,7 @@ from typing import Union
 import openai
 
 from chat_toolkit.common.constants import TMP_DIR
+from chat_toolkit.common.utils import set_openai_api_key
 from chat_toolkit.components.speech_to_text.speech_to_text_component_base import (  # noqa: E501
     SpeechToTextComponentBase,
 )
@@ -46,6 +47,7 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
             device=device,
             channels=channels,
         )
+        set_openai_api_key()
 
     @property
     def cost_estimate_data(self) -> tuple[float, dict]:

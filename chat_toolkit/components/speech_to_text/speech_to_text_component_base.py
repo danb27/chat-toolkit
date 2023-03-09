@@ -11,10 +11,7 @@ import soundfile as sf
 from loguru import logger
 
 from chat_toolkit.common.constants import TMP_DIR
-from chat_toolkit.common.utils import (
-    RecordingEndedWithKeyboardSignal,
-    temporary_file,
-)
+from chat_toolkit.common.utils import temporary_file
 from chat_toolkit.components.component_base import ComponentBase
 
 
@@ -67,17 +64,13 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
         with temporary_file(
             "wav", tmp_file_directory=self.tmp_file_directory
         ) as tmp:
-            try:
-                self.record_unspecified_length_audio(tmp.name)
-            except RecordingEndedWithKeyboardSignal:
-                pass
+            self.record_unspecified_length_audio(tmp.name)
             transcription, metadata = self.transcribe(tmp)
         return transcription, metadata
 
     def record_unspecified_length_audio(self, file_path: str) -> None:
         """
-        Record audio for an unspecified length of time - until a
-        KeyboardInterrupt is raised.
+        Wait for user to push space bar, then record while they are holding.
 
         :param file_path: Path to save audio to.
         :return:
@@ -123,7 +116,7 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                         self._seconds_transcribed += ceil(
                             audio_file.frames / self.sample_rate
                         )
-                        raise RecordingEndedWithKeyboardSignal
+                        break
 
     @staticmethod
     def _wait_for_recording_to_start() -> None:

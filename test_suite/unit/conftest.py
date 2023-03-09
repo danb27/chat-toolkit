@@ -18,6 +18,8 @@ TEST_TEXT = "foo"
 OpenAIChatbotFactoryType = Callable[..., OpenAIChatBot]
 OpenAISpeechToTextFactoryType = Callable[..., OpenAISpeechToText]
 
+logger.disable("chat_toolkit")
+
 
 class TypeMatcher:
     """
@@ -44,11 +46,14 @@ def loguru_caplog(
     caplog: pytest.LogCaptureFixture,
 ) -> Generator[pytest.LogCaptureFixture, None, None]:
     """
-    Temporarily alters logger to allow for using pytest's caplog.
+    Temporarily alters logger to make sure it is enabled and to allow for
+    using pytest's caplog.
     """
+    logger.enable("chat_toolkit")
     handler_id = logger.add(caplog.handler, format="{message}")
     yield caplog
     logger.remove(handler_id)
+    logger.disable("chat_toolkit")
 
 
 @pytest.fixture
