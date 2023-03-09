@@ -34,10 +34,7 @@ class SpeechToTextOrchestrator(OrchestratorBase):
             user_input := self._speech_to_text_component.transcribe_speech()[0]
         ):
             print(f"\nUser: {user_input}")
-            chatbot_response, _ = self._chatbot_component.send_message(
-                user_input
-            )
-            print(f"\nChatbot: {chatbot_response}")
+            self.respond_from_text(user_input)
 
     @staticmethod
     def _check_user_input(user_input: str) -> bool:
@@ -58,3 +55,15 @@ class SpeechToTextOrchestrator(OrchestratorBase):
         :return: Components.
         """
         return self._chatbot_component, self._speech_to_text_component
+
+    def respond_from_text(self, text: str) -> str:
+        """
+        Get a response from some text. Can be overwritten (see
+        SpeechToSpeechOrchestrator).
+
+        :param text: Text to get chatbot response for.
+        :return: Chatbot's response in text.
+        """
+        chatbot_response, _ = self._chatbot_component.send_message(text)
+        print(f"\nChatbot: {chatbot_response}")
+        return chatbot_response

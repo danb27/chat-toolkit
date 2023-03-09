@@ -2,6 +2,9 @@ import importlib
 from typing import Optional
 
 from chat_toolkit.orchestrators.orchestrator_base import OrchestratorBase
+from chat_toolkit.orchestrators.speech_to_speech_orchestrator import (
+    SpeechToSpeechOrchestrator,
+)
 from chat_toolkit.orchestrators.speech_to_text_orchestrator import (
     SpeechToTextOrchestrator,
 )
@@ -16,31 +19,47 @@ COMPONENTS = {
     "speech_to_text": {
         "whisper": "OpenAISpeechToText",
     },
+    "text_to_speech": {
+        "pyttsx3": "Pyttsx3TextToSpeech",
+    },
 }
+COMPONENT_MODULE = "chat_toolkit.components"
 
 
-def main(chatbot: str, speech_to_text: Optional[str]) -> None:
+def main(
+    chatbot: str, speech_to_text: Optional[str], text_to_speech: Optional[str]
+) -> None:
     """
     Have a conversation in the terminal.
 
     :return:
     """
     chatbot_obj = getattr(
-        importlib.import_module("chat_toolkit.components"),
+        importlib.import_module(COMPONENT_MODULE),
         COMPONENTS["chatbot"][chatbot],
     )()
     orchestrator: Optional[OrchestratorBase]
+    kwargs = {"chatbot_component": chatbot_obj}
+
+    if text_to_speech:
+        text_to_speech_obj = getattr(
+            importlib.import_module(COMPONENT_MODULE),
+            COMPONENTS["text_to_speech"][text_to_speech],
+        )()
+        kwargs["text_to_speech_component"] = text_to_speech_obj
     if speech_to_text:
         speech_to_text_obj = getattr(
-            importlib.import_module("chat_toolkit.components"),
+            importlib.import_module(COMPONENT_MODULE),
             COMPONENTS["speech_to_text"][speech_to_text],
         )()
-        orchestrator = SpeechToTextOrchestrator(
-            chatbot_component=chatbot_obj,
-            speech_to_text_component=speech_to_text_obj,
-        )
+        kwargs["speech_to_text_component"] = speech_to_text_obj
+
+    if text_to_speech and speech_to_text:
+        orchestrator = SpeechToSpeechOrchestrator(**kwargs)
+    elif speech_to_text:
+        orchestrator = SpeechToTextOrchestrator(**kwargs)
     else:
-        orchestrator = TextToTextOrchestrator(chatbot_component=chatbot_obj)
+        orchestrator = TextToTextOrchestrator(**kwargs)
 
     orchestrator.terminal_conversation()
 
@@ -69,5 +88,16 @@ if __name__ == "__main__":
         default=None,
         choices=("whisper",),
     )
+    parser.add_argument(
+        "--text-to-speech",
+        type=str,
+        help="Text to speech model to use. Without additional "
+        "arguments, defaults to pyttsx3. Defaults to None when argument "
+        "is not present.",
+        nargs="?",
+        const="pyttsx3",
+        default=None,
+        choices=("pyttsx3",),
+    )
     args = parser.parse_args()
-    main(args.chatbot, args.speech_to_text)
+    main(args.chatbot, args.speech_to_text, args.text_to_speech)

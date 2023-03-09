@@ -392,6 +392,18 @@ files = [
 ]
 
 [[package]]
+name = "comtypes"
+version = "1.1.14"
+description = "Pure Python COM package"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "comtypes-1.1.14-py2.py3-none-any.whl", hash = "sha256:7cdbe2dc65fe105eea97be04dc50ee3178747bcb64d802d7c0832416d75a87bd"},
+    {file = "comtypes-1.1.14.zip", hash = "sha256:5d7caf6d3a86d51ddfc53e4548cae2dceee1b46672f8bd59679711dd01a934f2"},
+]
+
+[[package]]
 name = "coverage"
 version = "7.2.1"
 description = "Code coverage measurement for Python"
@@ -806,14 +818,14 @@ gitdb = ">=4.0.1,<5"
 
 [[package]]
 name = "identify"
-version = "2.5.18"
+version = "2.5.19"
 description = "File identification library for Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "identify-2.5.18-py2.py3-none-any.whl", hash = "sha256:93aac7ecf2f6abf879b8f29a8002d3c6de7086b8c28d88e1ad15045a15ab63f9"},
-    {file = "identify-2.5.18.tar.gz", hash = "sha256:89e144fa560cc4cffb6ef2ab5e9fb18ed9f9b3cb054384bab4b95c12f6c309fe"},
+    {file = "identify-2.5.19-py2.py3-none-any.whl", hash = "sha256:3ee3533e7f6f5023157fbebbd5687bb4b698ce6f305259e0d24b2d7d9efb72bc"},
+    {file = "identify-2.5.19.tar.gz", hash = "sha256:4102ecd051f6884449e7359e55b38ba6cd7aafb6ef27b8e2b38495a5723ea106"},
 ]
 
 [package.extras]
@@ -1082,14 +1094,13 @@ files = [
 
 [[package]]
 name = "openai"
-version = "0.27.0"
+version = "0.27.1"
 description = "Python client library for the OpenAI API"
 category = "main"
 optional = false
 python-versions = ">=3.7.1"
 files = [
-    {file = "openai-0.27.0-py3-none-any.whl", hash = "sha256:7d4066ea529658a1f1696a8766912b3f3b7139faca860dc530bf102f0b19d42c"},
-    {file = "openai-0.27.0.tar.gz", hash = "sha256:0efa486016283607cb72c23eac346ac739a22613ff4bff101df72a138cb2de60"},
+    {file = "openai-0.27.1.tar.gz", hash = "sha256:11a8eb9b609653295be6cc67febecd5189f17b22ef015462c5003d8959567fd7"},
 ]
 
 [package.dependencies]
@@ -1192,6 +1203,30 @@ identify = ">=1.0.0"
 nodeenv = ">=0.11.1"
 pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
+
+[[package]]
+name = "pyaudio"
+version = "0.2.13"
+description = "Cross-platform audio I/O with PortAudio"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "PyAudio-0.2.13-cp310-cp310-win32.whl", hash = "sha256:48e29537ea22ae2ae323eebe297bfb2683831cee4f20d96964e131f65ab2161d"},
+    {file = "PyAudio-0.2.13-cp310-cp310-win_amd64.whl", hash = "sha256:87137cfd0ef8608a2a383be3f6996f59505e322dab9d16531f14cf542fa294f1"},
+    {file = "PyAudio-0.2.13-cp311-cp311-win32.whl", hash = "sha256:13915faaa780e6bbbb6d745ef0e761674fd461b1b1b3f9c1f57042a534bfc0c3"},
+    {file = "PyAudio-0.2.13-cp311-cp311-win_amd64.whl", hash = "sha256:59cc3cc5211b729c7854e3989058a145872cc58b1a7b46c6d4d88448a343d890"},
+    {file = "PyAudio-0.2.13-cp37-cp37m-win32.whl", hash = "sha256:d294e3f85b2238649b1ff49ce3412459a8a312569975a89d14646536362d7576"},
+    {file = "PyAudio-0.2.13-cp37-cp37m-win_amd64.whl", hash = "sha256:ff7f5e44ef51fe61da1e09c6f632f0b5808198edd61b363855cc7dd03bf4a8ac"},
+    {file = "PyAudio-0.2.13-cp38-cp38-win32.whl", hash = "sha256:c6b302b048c054b7463936d8ba884b73877dc47012f3c94665dba92dd658ae04"},
+    {file = "PyAudio-0.2.13-cp38-cp38-win_amd64.whl", hash = "sha256:1505d766ee718df6f5a18b73ac42307ba1cb4d2c0397873159254a34f67515d6"},
+    {file = "PyAudio-0.2.13-cp39-cp39-win32.whl", hash = "sha256:eb128e4a6ea9b98d9a31f33c44978885af27dbe8ae53d665f8790cbfe045517e"},
+    {file = "PyAudio-0.2.13-cp39-cp39-win_amd64.whl", hash = "sha256:910ef09225cce227adbba92622d4a3e3c8375117f7dd64039f287d9ffc0e02a1"},
+    {file = "PyAudio-0.2.13.tar.gz", hash = "sha256:26bccc81e4243d1c0ff5487e6b481de6329fcd65c79365c267cef38f363a2b56"},
+]
+
+[package.extras]
+test = ["numpy"]
 
 [[package]]
 name = "pycodestyle"
@@ -4015,6 +4050,21 @@ pyobjc-core = ">=9.0.1"
 pyobjc-framework-Cocoa = ">=9.0.1"
 
 [[package]]
+name = "pypiwin32"
+version = "223"
+description = ""
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pypiwin32-223-py3-none-any.whl", hash = "sha256:67adf399debc1d5d14dffc1ab5acacb800da569754fafdc576b2a039485aa775"},
+    {file = "pypiwin32-223.tar.gz", hash = "sha256:71be40c1fbd28594214ecaecb58e7aa8b708eabfa0125c8a109ebd51edbd776a"},
+]
+
+[package.dependencies]
+pywin32 = ">=223"
+
+[[package]]
 name = "pytest"
 version = "7.2.2"
 description = "pytest: simple powerful testing with Python"
@@ -4056,6 +4106,47 @@ pytest = ">=4.6"
 
 [package.extras]
 testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
+
+[[package]]
+name = "pyttsx3"
+version = "2.90"
+description = "Text to Speech (TTS) library for Python 2 and 3. Works without internet connection or delay. Supports multiple TTS engines, including Sapi5, nsss, and espeak."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pyttsx3-2.90-py3-none-any.whl", hash = "sha256:a585b6d8cffc19bd92db1e0ccbd8aa9c6528dd2baa5a47045d6fed542a44aa19"},
+]
+
+[package.dependencies]
+comtypes = {version = "*", markers = "platform_system == \"Windows\""}
+pyobjc = {version = ">=2.4", markers = "platform_system == \"Darwin\""}
+pypiwin32 = {version = "*", markers = "platform_system == \"Windows\""}
+pywin32 = {version = "*", markers = "platform_system == \"Windows\""}
+
+[[package]]
+name = "pywin32"
+version = "305"
+description = "Python for Window Extensions"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pywin32-305-cp310-cp310-win32.whl", hash = "sha256:421f6cd86e84bbb696d54563c48014b12a23ef95a14e0bdba526be756d89f116"},
+    {file = "pywin32-305-cp310-cp310-win_amd64.whl", hash = "sha256:73e819c6bed89f44ff1d690498c0a811948f73777e5f97c494c152b850fad478"},
+    {file = "pywin32-305-cp310-cp310-win_arm64.whl", hash = "sha256:742eb905ce2187133a29365b428e6c3b9001d79accdc30aa8969afba1d8470f4"},
+    {file = "pywin32-305-cp311-cp311-win32.whl", hash = "sha256:19ca459cd2e66c0e2cc9a09d589f71d827f26d47fe4a9d09175f6aa0256b51c2"},
+    {file = "pywin32-305-cp311-cp311-win_amd64.whl", hash = "sha256:326f42ab4cfff56e77e3e595aeaf6c216712bbdd91e464d167c6434b28d65990"},
+    {file = "pywin32-305-cp311-cp311-win_arm64.whl", hash = "sha256:4ecd404b2c6eceaca52f8b2e3e91b2187850a1ad3f8b746d0796a98b4cea04db"},
+    {file = "pywin32-305-cp36-cp36m-win32.whl", hash = "sha256:48d8b1659284f3c17b68587af047d110d8c44837736b8932c034091683e05863"},
+    {file = "pywin32-305-cp36-cp36m-win_amd64.whl", hash = "sha256:13362cc5aa93c2beaf489c9c9017c793722aeb56d3e5166dadd5ef82da021fe1"},
+    {file = "pywin32-305-cp37-cp37m-win32.whl", hash = "sha256:a55db448124d1c1484df22fa8bbcbc45c64da5e6eae74ab095b9ea62e6d00496"},
+    {file = "pywin32-305-cp37-cp37m-win_amd64.whl", hash = "sha256:109f98980bfb27e78f4df8a51a8198e10b0f347257d1e265bb1a32993d0c973d"},
+    {file = "pywin32-305-cp38-cp38-win32.whl", hash = "sha256:9dd98384da775afa009bc04863426cb30596fd78c6f8e4e2e5bbf4edf8029504"},
+    {file = "pywin32-305-cp38-cp38-win_amd64.whl", hash = "sha256:56d7a9c6e1a6835f521788f53b5af7912090674bb84ef5611663ee1595860fc7"},
+    {file = "pywin32-305-cp39-cp39-win32.whl", hash = "sha256:9d968c677ac4d5cbdaa62fd3014ab241718e619d8e36ef8e11fb930515a1e918"},
+    {file = "pywin32-305-cp39-cp39-win_amd64.whl", hash = "sha256:50768c6b7c3f0b38b7fb14dd4104da93ebced5f1a50dc0e834594bff6fbe1271"},
+]
 
 [[package]]
 name = "pyyaml"
@@ -4150,14 +4241,14 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "setuptools"
-version = "67.5.1"
+version = "67.6.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "setuptools-67.5.1-py3-none-any.whl", hash = "sha256:1c39d42bda4cb89f7fdcad52b6762e3c309ec8f8715b27c684176b7d71283242"},
-    {file = "setuptools-67.5.1.tar.gz", hash = "sha256:15136a251127da2d2e77ac7a1bc231eb504654f7e3346d93613a13f2e2787535"},
+    {file = "setuptools-67.6.0-py3-none-any.whl", hash = "sha256:b78aaa36f6b90a074c1fa651168723acbf45d14cb1196b6f02c0fd07f17623b2"},
+    {file = "setuptools-67.6.0.tar.gz", hash = "sha256:2ee892cd5f29f3373097f5a814697e397cf3ce313616df0af11231e2ad118077"},
 ]
 
 [package.extras]
@@ -4457,4 +4548,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "56022bb51a4df5c3849e4caccca159dd70b3e43f4283e463b281904cad18918e"
+content-hash = "6e1eecf1afbcd9fc191d3cd0a72134ad19df438b94a628ad61cabfd7046e8df3"

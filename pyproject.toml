@@ -16,6 +16,8 @@ loguru = "^0.6.0"
 numpy = "^1.24.2"
 keyboard = "^0.13.5"
 pytest-cov = "^4.0.0"
+pyaudio = "^0.2.13"
+pyttsx3 = "^2.90"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "~3.1"

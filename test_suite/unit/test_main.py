@@ -29,6 +29,6 @@ def test_main(
         Mock(),
     )
     try:
-        main(chatbot_model, speech_to_text_model)
+        main(chatbot_model, speech_to_text_model, None)
     except ImportError as e:
         raise AssertionError from e

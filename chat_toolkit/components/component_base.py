@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 
 class CostEstimatorBase(ABC):
@@ -34,7 +35,7 @@ class ComponentBase(CostEstimatorBase, ABC):
     Used to create components in a standardized manner.
     """
 
-    def __init__(self, model: str, **kwargs):
+    def __init__(self, model: Optional[str], **kwargs):
         """
         Instantiates component.
 
