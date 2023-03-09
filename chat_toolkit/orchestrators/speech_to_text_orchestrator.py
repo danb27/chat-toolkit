@@ -31,9 +31,7 @@ class SpeechToTextOrchestrator(OrchestratorBase):
         start_prompt = input("\nEnter a start prompt (Leave blank to skip): ")
         self._chatbot_component.prompt_chatbot(start_prompts=start_prompt)
         while self._check_user_input(
-            user_input := self._speech_to_text_component.record_and_transcribe()[  # noqa: E501
-                0
-            ]
+            user_input := self._speech_to_text_component.transcribe_speech()[0]
         ):
             print(f"\nUser: {user_input}")
             chatbot_response, _ = self._chatbot_component.send_message(

@@ -50,7 +50,7 @@ def test_record_and_transcribe_sad(
         Mock(side_effect=Exception("Mock Error")),
     )
     with pytest.raises(Exception, match="Mock Error"):
-        speech_to_text.record_and_transcribe()
+        speech_to_text.transcribe_speech()
 
 
 @pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)

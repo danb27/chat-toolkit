@@ -1,4 +1,3 @@
-import io
 from abc import ABC, abstractmethod
 from math import ceil
 from pathlib import Path
@@ -11,7 +10,6 @@ import soundfile as sf
 from loguru import logger
 
 from chat_toolkit.common.constants import TMP_DIR
-from chat_toolkit.common.utils import temporary_file
 from chat_toolkit.components.component_base import ComponentBase
 
 
@@ -47,26 +45,13 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
         self._seconds_transcribed = 0
 
     @abstractmethod
-    def transcribe(self, audio_file: io.BufferedRandom) -> tuple[str, dict]:
+    def transcribe_speech(self) -> tuple[str, dict]:
         """
-        Abstract method for transcribing a file with audio into text
-        :param audio_file:
-        :return:
-        """
-        pass
-
-    def record_and_transcribe(self) -> tuple[str, dict]:
-        """
-        Record user's voice and transcribe into text.
+        Abstract method for transcribing speech.
 
         :return: Transcription text, any applicable metadata.
         """
-        with temporary_file(
-            "wav", tmp_file_directory=self.tmp_file_directory
-        ) as tmp:
-            self.record_unspecified_length_audio(tmp.name)
-            transcription, metadata = self.transcribe(tmp)
-        return transcription, metadata
+        pass
 
     def record_unspecified_length_audio(self, file_path: str) -> None:
         """

@@ -101,7 +101,7 @@ Basic Usage:
 from chat_toolkit import OpenAISpeechToText
 
 speech_to_text = OpenAISpeechToText()
-text, _ = speech_to_text.record_and_transcribe()
+text, _ = speech_to_text.transcribe_speech()
 ```
 
 > Advanced Usage: You can create your own speech to text components by

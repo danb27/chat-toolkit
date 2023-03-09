@@ -5,7 +5,7 @@ from typing import Union
 import openai
 
 from chat_toolkit.common.constants import TMP_DIR
-from chat_toolkit.common.utils import set_openai_api_key
+from chat_toolkit.common.utils import set_openai_api_key, temporary_file
 from chat_toolkit.components.speech_to_text.speech_to_text_component_base import (  # noqa: E501
     SpeechToTextComponentBase,
 )
@@ -48,6 +48,19 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
             channels=channels,
         )
         set_openai_api_key()
+
+    def transcribe_speech(self) -> tuple[str, dict]:
+        """
+        Record user's voice and transcribe into text.
+
+        :return: Transcription text, any applicable metadata.
+        """
+        with temporary_file(
+            "wav", tmp_file_directory=self.tmp_file_directory
+        ) as tmp:
+            self.record_unspecified_length_audio(tmp.name)
+            transcription, metadata = self.transcribe(tmp)
+        return transcription, metadata
 
     @property
     def cost_estimate_data(self) -> tuple[float, dict]:
