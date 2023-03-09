@@ -1,5 +1,5 @@
 import importlib
-from typing import Union
+from typing import Optional
 
 from chat_toolkit.orchestrators.orchestrator_base import OrchestratorBase
 from chat_toolkit.orchestrators.speech_to_text_orchestrator import (
@@ -19,7 +19,7 @@ COMPONENTS = {
 }
 
 
-def main(chatbot: str, speech_to_text: Union[str, None]) -> None:
+def main(chatbot: str, speech_to_text: Optional[str]) -> None:
     """
     Have a conversation in the terminal.
 
@@ -29,7 +29,7 @@ def main(chatbot: str, speech_to_text: Union[str, None]) -> None:
         importlib.import_module("chat_toolkit.components"),
         COMPONENTS["chatbot"][chatbot],
     )()
-    orchestrator: Union[OrchestratorBase, None]
+    orchestrator: Optional[OrchestratorBase]
     if speech_to_text:
         speech_to_text_obj = getattr(
             importlib.import_module("chat_toolkit.components"),

@@ -1,5 +1,5 @@
 import logging
-from typing import Union
+from typing import Optional
 
 import openai
 
@@ -38,7 +38,7 @@ class OpenAIChatBot(ChatbotComponentBase):
 
         set_openai_api_key()
 
-        self.latest_response: Union[openai.ChatCompletion, None] = None
+        self.latest_response: Optional[openai.ChatCompletion] = None
         self.history: list[dict] = []
         self._tokens_used = {
             "completion_tokens": 0,
