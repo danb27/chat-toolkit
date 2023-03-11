@@ -4,12 +4,12 @@ from pathlib import Path
 from queue import Queue
 from typing import Union
 
-import keyboard
 import sounddevice as sd
 import soundfile as sf
 from loguru import logger
 
 from chat_toolkit.common.constants import TMP_DIR
+from chat_toolkit.common.key_tracker import KeyTracker
 from chat_toolkit.components.component_base import ComponentBase
 
 
@@ -61,6 +61,7 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
         :return:
         """
         queue: Queue = Queue()
+        key_tracker = KeyTracker()
 
         def _callback(indata, frames, time, status):  # noqa: F841
             """
@@ -90,28 +91,15 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                 channels=self._channels,
                 callback=_callback,
             ):
-                self._wait_for_recording_to_start()
-                print(
-                    "\tRecording...",
-                )
+                key_tracker.wait_for_recording_to_start()
+
                 while True:
                     audio_file.write(queue.get())
-                    if not keyboard.is_pressed("space"):
-                        print("\tRecording stopped.")
+                    if not key_tracker.check_if_still_recording():
                         self._seconds_transcribed += ceil(
                             audio_file.frames / self.sample_rate
                         )
                         break
-
-    @staticmethod
-    def _wait_for_recording_to_start() -> None:
-        """
-        Wait for user to signal for recording to start
-
-        :return:
-        """
-        print("\n\tHold space to record...")
-        keyboard.wait("space")
 
     @property
     def seconds_transcribed(self) -> int:
