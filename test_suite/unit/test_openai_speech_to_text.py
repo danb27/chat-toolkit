@@ -6,13 +6,13 @@ import pytest
 
 from chat_toolkit.common.utils import temporary_file
 from test_suite.unit.conftest import (
-    CHATBOT_MODEL_TYPES,
+    SPEECH_TO_TEXT_MODEL_TYPES,
     TEST_TEXT,
     OpenAISpeechToTextFactoryType,
 )
 
 
-@pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)
+@pytest.mark.parametrize("model", SPEECH_TO_TEXT_MODEL_TYPES)
 @pytest.mark.parametrize("pricing_rate", [0.1, 0.05, 0.002, 1.0, 0.0])
 @pytest.mark.parametrize("device", [0])
 def test_init(
@@ -27,6 +27,7 @@ def test_init(
     speech_to_text = patched_openai_speech_to_text_factory(
         model, pricing_rate, device
     )
+    assert speech_to_text
     assert speech_to_text._model == model
     assert speech_to_text._pricing_rate == pricing_rate
     assert speech_to_text.seconds_transcribed == 0
@@ -34,7 +35,7 @@ def test_init(
     assert isinstance(speech_to_text.tmp_file_directory, Path)
 
 
-@pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)
+@pytest.mark.parametrize("model", SPEECH_TO_TEXT_MODEL_TYPES)
 def test_record_and_transcribe_sad(
     patched_openai_speech_to_text_factory: OpenAISpeechToTextFactoryType,
     model: str,
@@ -44,6 +45,7 @@ def test_record_and_transcribe_sad(
     Test that an exception is raised when another error is raised.
     """
     speech_to_text = patched_openai_speech_to_text_factory(model)
+    assert speech_to_text
     monkeypatch.setattr(
         speech_to_text,
         "record_unspecified_length_audio",
@@ -53,7 +55,7 @@ def test_record_and_transcribe_sad(
         speech_to_text.transcribe_speech()
 
 
-@pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)
+@pytest.mark.parametrize("model", SPEECH_TO_TEXT_MODEL_TYPES)
 @pytest.mark.parametrize("pricing_rate", [0.1, 0.05, 0.002, 1.0, 0.0])
 @pytest.mark.parametrize("seconds", [1000, 0, 5])
 def test_cost_estimate_data(
@@ -66,6 +68,7 @@ def test_cost_estimate_data(
     Test that cost estimate is calculated correctly.
     """
     speech_to_text = patched_openai_speech_to_text_factory(model, pricing_rate)
+    assert speech_to_text
     speech_to_text._seconds_transcribed = seconds
 
     cost_estimate, metadata = speech_to_text.cost_estimate_data
@@ -74,7 +77,7 @@ def test_cost_estimate_data(
     assert speech_to_text.seconds_transcribed == seconds
 
 
-@pytest.mark.parametrize("model", CHATBOT_MODEL_TYPES)
+@pytest.mark.parametrize("model", SPEECH_TO_TEXT_MODEL_TYPES)
 def test_transcribe(
     patched_openai_speech_to_text_factory: OpenAISpeechToTextFactoryType,
     model: str,
@@ -85,6 +88,7 @@ def test_transcribe(
     call.
     """
     speech_to_text = patched_openai_speech_to_text_factory(model)
+    assert speech_to_text
     with temporary_file(
         "wav", tmp_file_directory=speech_to_text.tmp_file_directory
     ) as tmp:
