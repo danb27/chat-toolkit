@@ -16,7 +16,7 @@ class TextToSpeechComponentBase(ComponentBase, ABC):
         self.speaking_rate = speaking_rate
 
     @abstractmethod
-    def say(self, text: str) -> dict:
+    def say_text(self, text: str) -> dict:
         """
         Abstract method for synthesizing some text.
 

@@ -89,7 +89,7 @@ class Orchestrator:
                 print(f"\nChatbot: {chatbot_response}")
 
                 if self._text_to_speech_component:
-                    self._text_to_speech_component.say(chatbot_response)
+                    self._text_to_speech_component.say_text(chatbot_response)
         except KeyboardInterrupt:
             # Swallow user Keyboard Interrupts
             pass

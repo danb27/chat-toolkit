@@ -29,7 +29,7 @@ class Pyttsx3TextToSpeech(TextToSpeechComponentBase):
         self.engine.setProperty(pyttsx3_property, value)
         self.engine.runAndWait()
 
-    def say(self, text: str) -> dict:
+    def say_text(self, text: str) -> dict:
         """
         Synthesize some text.
 
