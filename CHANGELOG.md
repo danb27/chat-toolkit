@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1 (3/21/2023)
+- Documentation fixes/improvements.
+
 ## 1.1.0 (3/21/2023)
 
 ### Added
@@ -11,8 +14,8 @@
 - Improved documentation.
 
 ### Removed
-- `RecordingEndedWithKeyboardSignal` in favor of a new approach to recording (see above)
-- `OrchestratorBase` and all subclasses in favor of Orchestrator (see above)
+- `RecordingEndedWithKeyboardSignal` in favor of a new approach to recording (see above).
+- `OrchestratorBase` and all subclasses in favor of Orchestrator (see above).
 
 ### Bugs
 - Fixed linux incompatibilities by adding dependencies.

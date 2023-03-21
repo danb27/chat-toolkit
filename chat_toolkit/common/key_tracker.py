@@ -87,5 +87,8 @@ class KeyTracker:
         return self._recording
 
     def stop_tracking(self):
+        """
+        Stop tracking keys if needed for user's OS.
+        """
         if self._linux:
             self._hook.cancel()

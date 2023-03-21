@@ -5,9 +5,12 @@
   * [Components](#components)
     * [Chatbots](#chatbots)
     * [Speech to Text](#speech-to-text)
-  * [Orchestrators](#orchestrators)
-    * [TextToTextOrchestrator](#texttotextorchestrator)
-    * [SpeechToTextOrchestrator](#speechtotextorchestrator)
+    * [Text to Speech](#text-to-speech)
+  * [Orchestrator](#orchestrator)
+    * [Text to Text](#text-to-text)
+    * [Speech to Text](#speech-to-text-1)
+    * [Text to Speech](#text-to-speech-1)
+    * [Speech to Speech](#speech-to-speech)
 <!-- TOC -->
 
 # Chat Toolkit
@@ -30,12 +33,17 @@ start a conversation in your terminal.
 Usage:
 
 ```
-usage: A script for quickly starting a conversation in your terminal. [-h] [--chatbot {chatgpt}] [--speech-to-text [{whisper}]]
+usage: A script for quickly starting a conversation in your terminal. [-h] [--chatbot {chatgpt}]
+                                                                      [--speech-to-text [{whisper}]]
+                                                                      [--text-to-speech [{pyttsx3}]]
 
-optional arguments:
+options:
   -h, --help                        show this help message and exit
   --chatbot {chatgpt}               Chatbot to use. Default: chatgpt.
-  --speech-to-text [{whisper}]      Speech to text model to use. Without additional arguments, defaults to whisper. Defaults to None when argument is not present.
+  --speech-to-text [{whisper}]      Speech to text model to use. Without additional arguments, defaults to whisper. Defaults to
+                                    None when argument is not present.
+  --text-to-speech [{pyttsx3}]      Text to speech model to use. Without additional arguments, defaults to pyttsx3. Defaults to
+                                    None when argument is not present.
 
 ```
 
@@ -45,7 +53,7 @@ To quickly start up a Text to Text conversation (default models):
 
 To quickly start up a Speech to Text conversation (default models):
 
-`python -m chat_toolkit --chatbot --speech-to-text`
+`python -m chat_toolkit --speech-to-text`
 
 To quickly start up a Text to Speech conversation (default models):
 
@@ -105,6 +113,9 @@ from chat_toolkit import OpenAISpeechToText
 speech_to_text = OpenAISpeechToText()
 text, _ = speech_to_text.transcribe_speech()
 ```
+
+**NOTE**: Recording quality is very sensitive to your hardware. Things can go wrong,
+for example, if the input volume on your microphone is too loud.
 
 > Advanced Usage: You can create your own speech to text components by
 > subclassing `chat_toolkit.base.SpeechToTextComponentBase`
@@ -174,7 +185,7 @@ chat.terminal_conversation()
 ```
 
 
-## Speech to Speech
+### Speech to Speech
 
 Basic usage:
 

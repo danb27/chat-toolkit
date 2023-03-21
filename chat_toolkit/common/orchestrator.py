@@ -118,7 +118,12 @@ class Orchestrator:
             total += cost_estimate
         print(f"\n\nTotal Estimated Cost: ${total:.4f}\n")
 
-    def get_start_prompt(self):
+    def get_start_prompt(self) -> str:
+        """
+        Get a start prompt from the user
+
+        :return: start prompt
+        """
         if self._speech_to_text_component:
             print("\nRecord a start prompt (Say nothing to skip)")
             start_prompt = self._speech_to_text_component.transcribe_speech()[

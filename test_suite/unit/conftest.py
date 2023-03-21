@@ -215,6 +215,10 @@ def patched_orchestrator(
     patched_openai_speech_to_text_factory: OpenAISpeechToTextFactoryType,
     patched_pyttsx3_text_to_speech_factory: Pyttsx3TextToSpeechFactoryType,
 ) -> tuple[Orchestrator, SubRequest]:
+    """
+    Fixture for every possible combination of an orchestrator using patched
+    objects.
+    """
     chatbot_model, speech_to_text_model, text_to_speech_model = request.param
     chatbot = patched_openai_chatbot_factory(chatbot_model)
     speech_to_text = patched_openai_speech_to_text_factory(
