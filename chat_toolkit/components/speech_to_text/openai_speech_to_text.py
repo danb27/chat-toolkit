@@ -5,6 +5,7 @@ from typing import Union
 import openai
 
 from chat_toolkit.common.constants import TMP_DIR
+from chat_toolkit.common.utils import set_openai_api_key, temporary_file
 from chat_toolkit.components.speech_to_text.speech_to_text_component_base import (  # noqa: E501
     SpeechToTextComponentBase,
 )
@@ -46,9 +47,23 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
             device=device,
             channels=channels,
         )
+        set_openai_api_key()
+
+    def transcribe_speech(self) -> tuple[str, dict]:
+        """
+        Record user's voice and transcribe into text.
+
+        :return: Transcription text, any applicable metadata.
+        """
+        with temporary_file(
+            "wav", tmp_file_directory=self.tmp_file_directory
+        ) as tmp:
+            self.record_unspecified_length_audio(tmp.name)
+            transcription, metadata = self.transcribe(tmp)
+        return transcription, metadata
 
     @property
-    def cost_estimate_data(self) -> tuple[float, dict]:
+    def _cost_estimate_data(self) -> tuple[float, dict]:
         """
         Property representing most recent cost estimate based on number of
         tokens charged by OpenAI so far in the object's usage. See notes about
@@ -67,5 +82,15 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
         :param audio_file: Open audio file.
         :return: Transcribed text.
         """
-        transcription = openai.Audio.transcribe(self._model, audio_file)
-        return transcription["text"], {}
+        try:
+            transcription = openai.Audio.transcribe(self._model, audio_file)
+            text = transcription["text"]
+        except openai.error.InvalidRequestError as ex:
+            if (
+                str(ex) != "Audio file is too short. Minimum audio "
+                "length is 0.1 seconds."
+            ):
+                raise
+            text = ""
+
+        return text, {}

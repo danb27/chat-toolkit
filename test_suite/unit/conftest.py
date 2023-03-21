@@ -1,22 +1,33 @@
+import itertools
 from collections.abc import Generator
 from typing import Any, Callable, Optional, Union
 from unittest.mock import Mock
 
 import pytest
+from _pytest.fixtures import SubRequest
 from loguru import logger
 
+from chat_toolkit.common.orchestrator import Orchestrator
 from chat_toolkit.components.chatbots.openai_chatbot import OpenAIChatBot
 from chat_toolkit.components.speech_to_text.openai_speech_to_text import (
     OpenAISpeechToText,
 )
+from chat_toolkit.components.text_to_speech.pyttsx3_text_to_speech import (
+    Pyttsx3TextToSpeech,
+)
 
 CHATBOT_MODEL_TYPES = ("gpt-3.5-turbo",)
 SPEECH_TO_TEXT_MODEL_TYPES = ("whisper-1",)
+TEXT_TO_SPEECH_MODEL_TYPES = ("pyttsx3",)
 
 TEST_TEXT = "foo"
 
 OpenAIChatbotFactoryType = Callable[..., OpenAIChatBot]
-OpenAISpeechToTextFactoryType = Callable[..., OpenAISpeechToText]
+OpenAISpeechToTextFactoryType = Callable[..., Optional[OpenAISpeechToText]]
+Pyttsx3TextToSpeechFactoryType = Callable[..., Optional[Pyttsx3TextToSpeech]]
+PatchedOrchestratorType = tuple[Orchestrator, SubRequest]
+
+logger.disable("chat_toolkit")
 
 
 class TypeMatcher:
@@ -44,11 +55,14 @@ def loguru_caplog(
     caplog: pytest.LogCaptureFixture,
 ) -> Generator[pytest.LogCaptureFixture, None, None]:
     """
-    Temporarily alters logger to allow for using pytest's caplog.
+    Temporarily alters logger to make sure it is enabled and to allow for
+    using pytest's caplog.
     """
+    logger.enable("chat_toolkit")
     handler_id = logger.add(caplog.handler, format="{message}")
     yield caplog
     logger.remove(handler_id)
+    logger.disable("chat_toolkit")
 
 
 @pytest.fixture
@@ -141,15 +155,77 @@ def patched_openai_speech_to_text_factory(
     """
 
     def _inner(
-        model: str,
+        model: Optional[str],
         pricing_rate: Optional[float] = None,
         device: Union[int, str] = 0,
-    ) -> OpenAISpeechToText:
-        if isinstance(pricing_rate, float):
-            return OpenAISpeechToText(model, pricing_rate, device, 2, tmp_path)
+    ) -> Optional[OpenAISpeechToText]:
+        if not model:
+            return None
 
-        return OpenAISpeechToText(
-            model, device=device, tmp_file_directory=tmp_path
-        )
+        kwargs = {
+            "model": model,
+            "device": device,
+            "tmp_file_directory": tmp_path,
+        }
+
+        if isinstance(pricing_rate, float):
+            kwargs["pricing_rate"] = pricing_rate
+
+        return OpenAISpeechToText(**kwargs)
 
     return _inner
+
+
+@pytest.fixture
+def patched_pyttsx3_text_to_speech_factory() -> Pyttsx3TextToSpeechFactoryType:
+    """
+    Factory to create an openai speech to text component with appropriate
+    mocks and parameterized instantiation.
+    """
+
+    def _inner(
+        model: Optional[str],
+        speaking_rate: Optional[int] = None,
+    ) -> Optional[Pyttsx3TextToSpeech]:
+        if not model:
+            return None
+
+        if isinstance(speaking_rate, int):
+            kwargs = {"speaking_rate": speaking_rate}
+        else:
+            kwargs = {}
+
+        return Pyttsx3TextToSpeech(**kwargs)
+
+    return _inner
+
+
+@pytest.fixture(
+    params=list(
+        itertools.product(
+            CHATBOT_MODEL_TYPES,
+            SPEECH_TO_TEXT_MODEL_TYPES + (None,),
+            TEXT_TO_SPEECH_MODEL_TYPES + (None,),
+        )
+    )
+)
+def patched_orchestrator(
+    request: SubRequest,
+    patched_openai_chatbot_factory: OpenAIChatbotFactoryType,
+    patched_openai_speech_to_text_factory: OpenAISpeechToTextFactoryType,
+    patched_pyttsx3_text_to_speech_factory: Pyttsx3TextToSpeechFactoryType,
+) -> tuple[Orchestrator, SubRequest]:
+    chatbot_model, speech_to_text_model, text_to_speech_model = request.param
+    chatbot = patched_openai_chatbot_factory(chatbot_model)
+    speech_to_text = patched_openai_speech_to_text_factory(
+        speech_to_text_model
+    )
+    text_to_speech = patched_pyttsx3_text_to_speech_factory(
+        text_to_speech_model
+    )
+    orchestrator = Orchestrator(
+        chatbot,
+        speech_to_text_component=speech_to_text,
+        text_to_speech_component=text_to_speech,
+    )
+    return orchestrator, request

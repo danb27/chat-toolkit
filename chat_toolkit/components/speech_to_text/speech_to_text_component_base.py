@@ -1,20 +1,15 @@
-import io
 from abc import ABC, abstractmethod
 from math import ceil
 from pathlib import Path
 from queue import Queue
 from typing import Union
 
-import keyboard
 import sounddevice as sd
 import soundfile as sf
 from loguru import logger
 
 from chat_toolkit.common.constants import TMP_DIR
-from chat_toolkit.common.utils import (
-    RecordingEndedWithKeyboardSignal,
-    temporary_file,
-)
+from chat_toolkit.common.key_tracker import KeyTracker
 from chat_toolkit.components.component_base import ComponentBase
 
 
@@ -50,39 +45,23 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
         self._seconds_transcribed = 0
 
     @abstractmethod
-    def transcribe(self, audio_file: io.BufferedRandom) -> tuple[str, dict]:
+    def transcribe_speech(self) -> tuple[str, dict]:
         """
-        Abstract method for transcribing a file with audio into text
-        :param audio_file:
-        :return:
-        """
-        pass
-
-    def record_and_transcribe(self) -> tuple[str, dict]:
-        """
-        Record user's voice and transcribe into text.
+        Abstract method for transcribing speech.
 
         :return: Transcription text, any applicable metadata.
         """
-        with temporary_file(
-            "wav", tmp_file_directory=self.tmp_file_directory
-        ) as tmp:
-            try:
-                self.record_unspecified_length_audio(tmp.name)
-            except RecordingEndedWithKeyboardSignal:
-                pass
-            transcription, metadata = self.transcribe(tmp)
-        return transcription, metadata
+        pass
 
     def record_unspecified_length_audio(self, file_path: str) -> None:
         """
-        Record audio for an unspecified length of time - until a
-        KeyboardInterrupt is raised.
+        Wait for user to push space bar, then record while they are holding.
 
         :param file_path: Path to save audio to.
         :return:
         """
         queue: Queue = Queue()
+        key_tracker = KeyTracker()
 
         def _callback(indata, frames, time, status):  # noqa: F841
             """
@@ -98,42 +77,33 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                 )
             queue.put(indata.copy())
 
-        # Make sure the file is opened before recording anything:
-        with sf.SoundFile(
-            file_path,
-            mode="w+b",
-            samplerate=self.sample_rate,
-            channels=self._channels,
-            closefd=False,
-        ) as audio_file:
-            with sd.InputStream(
+        try:
+            # Make sure the file is opened before recording anything:
+            with sf.SoundFile(
+                file_path,
+                mode="w+b",
                 samplerate=self.sample_rate,
-                device=self.device,
                 channels=self._channels,
-                callback=_callback,
-            ):
-                self._wait_for_recording_to_start()
-                print(
-                    "\tRecording...",
-                )
-                while True:
-                    audio_file.write(queue.get())
-                    if not keyboard.is_pressed("space"):
-                        print("\tRecording stopped.")
-                        self._seconds_transcribed += ceil(
-                            audio_file.frames / self.sample_rate
-                        )
-                        raise RecordingEndedWithKeyboardSignal
+                closefd=False,
+            ) as audio_file:
+                key_tracker.wait_for_recording_to_start()
 
-    @staticmethod
-    def _wait_for_recording_to_start() -> None:
-        """
-        Wait for user to signal for recording to start
+                with sd.InputStream(
+                    samplerate=self.sample_rate,
+                    device=self.device,
+                    channels=self._channels,
+                    callback=_callback,
+                ):
+                    while True:
+                        audio_file.write(queue.get())
+                        if not key_tracker.check_if_still_recording():
+                            self._seconds_transcribed += ceil(
+                                audio_file.frames / self.sample_rate
+                            )
+                            break
 
-        :return:
-        """
-        print("\n\tHold space to record...")
-        keyboard.wait("space")
+        except KeyboardInterrupt:
+            key_tracker.stop_tracking()
 
     @property
     def seconds_transcribed(self) -> int:

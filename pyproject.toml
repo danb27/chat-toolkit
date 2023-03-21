@@ -1,11 +1,13 @@
 [tool.poetry]
 name = "chat-toolkit"
-version = "1.0.1"
+version = "1.1.0"
 description = "Extensible package for creating machine learning powered chatbots."
 authors = ["danb27 <danbianchini@outlook.com>"]
 readme = "README.md"
 packages = [{include = "chat_toolkit"}]
 license = "MIT"
+homepage = "https://github.com/danb27/chat-toolkit"
+keywords = ["chatbot", "chatgpt", "conversational AI"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -16,6 +18,8 @@ loguru = "^0.6.0"
 numpy = "^1.24.2"
 keyboard = "^0.13.5"
 pytest-cov = "^4.0.0"
+pyttsx3 = "^2.90"
+pyxhook = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "~3.1"

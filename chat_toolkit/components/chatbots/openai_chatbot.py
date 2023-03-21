@@ -1,9 +1,10 @@
 import logging
-from typing import Union
+from typing import Optional
 
 import openai
 
 from chat_toolkit.common.custom_types import StartingPromptsType
+from chat_toolkit.common.utils import set_openai_api_key
 from chat_toolkit.components.chatbots.chatbot_component_base import (
     ChatbotComponentBase,
 )
@@ -35,7 +36,9 @@ class OpenAIChatBot(ChatbotComponentBase):
             pricing_rate=pricing_rate,
         )
 
-        self.latest_response: Union[openai.ChatCompletion, None] = None
+        set_openai_api_key()
+
+        self.latest_response: Optional[openai.ChatCompletion] = None
         self.history: list[dict] = []
         self._tokens_used = {
             "completion_tokens": 0,
@@ -86,7 +89,7 @@ class OpenAIChatBot(ChatbotComponentBase):
         )
 
     @property
-    def cost_estimate_data(self) -> tuple[float, dict]:
+    def _cost_estimate_data(self) -> tuple[float, dict]:
         """
         Property representing most recent cost estimate based on number of
         tokens charged by OpenAI so far in the object's usage. See notes about
