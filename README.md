@@ -14,9 +14,9 @@
 
 Extensible package for creating machine learning powered chatbots.
 
-**NOTE**: Linux users may need to install PortAudio. Please check their
-documentation for the best way to install on your system. For Ubuntu
-users, `sudo apt-get install libportaudio2` should do the trick.
+Package supports Linux and Windows. Mac is not explicitly supported, although it is possible some, or many parts of this will still work.
+
+**NOTE**: Some components require additional dependencies. See below for more information.
 
 ## Installation
 
@@ -39,19 +39,21 @@ optional arguments:
 
 ```
 
-To quickly start up a TextToTextOrchestrator (both are equivalent):
+To quickly start up a Text to Text conversation (default models):
 
 `python -m chat_toolkit`
-OR
-`python -m chat_toolkit --chatbot chatgpt`
 
-To quickly start up a SpeechToTextOrchestrator (all are equivalent):
+To quickly start up a Speech to Text conversation (default models):
 
-`python -m chat_toolkit --speech-to-text`
-OR
-`python -m chat_toolkit --speech-to-text whisper`
-OR
-`python -m chat_toolkit --chatbot chatgpt --speech-to-text whisper`
+`python -m chat_toolkit --chatbot --speech-to-text`
+
+To quickly start up a Text to Speech conversation (default models):
+
+`python -m chat_toolkit --text-to-speech`
+
+To quickly start up a Speech to Speech conversation (default models):
+
+`python -m chat_toolkit --speech-to-text --text-to-speech`
 
 ## Components
 
@@ -91,9 +93,9 @@ chatbot_response, _ = chatbot.send_message("Hello, what is your name?")
 
 These components record speech and transform it into text.
 
-| Class              | Requirements   | Model    | Default Cost     | Reference                                                                            |
-|--------------------|----------------|----------|------------------|--------------------------------------------------------------------------------------|
-| OpenAISpeechToText | OPENAI_API_KEY | whiper-1 | $0.006/1k tokens | [OpenAI](https://platform.openai.com/docs/guides/speech-to-text/speech-to-text-beta) |
+| Class              | Requirements                          | Model    | Default Cost     | Reference                                                                            |
+|--------------------|---------------------------------------|----------|------------------|--------------------------------------------------------------------------------------|
+| OpenAISpeechToText | OPENAI_API_KEY, libportaudio2 (linux) | whiper-1 | $0.006/1k tokens | [OpenAI](https://platform.openai.com/docs/guides/speech-to-text/speech-to-text-beta) |
 
 Basic Usage:
 
@@ -111,9 +113,11 @@ text, _ = speech_to_text.transcribe_speech()
 
 These components say pieces of text.
 
-| ClassTextToSpeech   | Requirements | Model  | Default Cost | Reference                                            |
-|---------------------|--------------|--------|--------------|------------------------------------------------------|
-| Pyttsx3TextToSpeech |              | n/a    | Free         | [Pyttsx3](https://pyttsx3.readthedocs.io/en/latest/) |
+| ClassTextToSpeech   | Requirements   | Model  | Default Cost | Reference                                            |
+|---------------------|----------------|--------|--------------|------------------------------------------------------|
+| Pyttsx3TextToSpeech | espeak (linux) | n/a    | Free         | [Pyttsx3](https://pyttsx3.readthedocs.io/en/latest/) |
+
+**NOTE**: Pyttsx3TextToSpeech currently defaults to English, but it may be configured using `set_pyttsx3_property()` method. See pyttsx3's documentation for more information.
 
 Basic Usage:
 
@@ -121,7 +125,7 @@ Basic Usage:
 from chat_toolkit import Pyttsx3TextToSpeech
 
 text_to_speech = Pyttsx3TextToSpeech()
-text_to_speech.say("hello")
+text_to_speech.say_text("hello")
 ```
 
 > Advanced Usage: You can create your own text to speech components by
