@@ -37,7 +37,7 @@ class KeyTracker:
         :param event: Key up event to process
         """
         if event.Ascii == self._tracking_char and self._recording:
-            self._hook.cancel()
+            self.stop_tracking()
             self._recording = False
 
     def _wait_for_recording_to_start(self) -> None:
@@ -85,3 +85,7 @@ class KeyTracker:
         if not self._recording:
             print("\tRecording stopped.")
         return self._recording
+
+    def stop_tracking(self):
+        if self._linux:
+            self._hook.cancel()

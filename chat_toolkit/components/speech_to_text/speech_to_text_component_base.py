@@ -77,29 +77,33 @@ class SpeechToTextComponentBase(ComponentBase, ABC):
                 )
             queue.put(indata.copy())
 
-        # Make sure the file is opened before recording anything:
-        with sf.SoundFile(
-            file_path,
-            mode="w+b",
-            samplerate=self.sample_rate,
-            channels=self._channels,
-            closefd=False,
-        ) as audio_file:
-            with sd.InputStream(
+        try:
+            # Make sure the file is opened before recording anything:
+            with sf.SoundFile(
+                file_path,
+                mode="w+b",
                 samplerate=self.sample_rate,
-                device=self.device,
                 channels=self._channels,
-                callback=_callback,
-            ):
+                closefd=False,
+            ) as audio_file:
                 key_tracker.wait_for_recording_to_start()
 
-                while True:
-                    audio_file.write(queue.get())
-                    if not key_tracker.check_if_still_recording():
-                        self._seconds_transcribed += ceil(
-                            audio_file.frames / self.sample_rate
-                        )
-                        break
+                with sd.InputStream(
+                    samplerate=self.sample_rate,
+                    device=self.device,
+                    channels=self._channels,
+                    callback=_callback,
+                ):
+                    while True:
+                        audio_file.write(queue.get())
+                        if not key_tracker.check_if_still_recording():
+                            self._seconds_transcribed += ceil(
+                                audio_file.frames / self.sample_rate
+                            )
+                            break
+
+        except KeyboardInterrupt:
+            key_tracker.stop_tracking()
 
     @property
     def seconds_transcribed(self) -> int:

@@ -1,16 +1,7 @@
 import importlib
 from typing import Optional
 
-from chat_toolkit.orchestrators.orchestrator_base import OrchestratorBase
-from chat_toolkit.orchestrators.speech_to_speech_orchestrator import (
-    SpeechToSpeechOrchestrator,
-)
-from chat_toolkit.orchestrators.speech_to_text_orchestrator import (
-    SpeechToTextOrchestrator,
-)
-from chat_toolkit.orchestrators.text_to_text_orchestrator import (
-    TextToTextOrchestrator,
-)
+from chat_toolkit.common.orchestrator import Orchestrator
 
 COMPONENTS = {
     "chatbot": {
@@ -28,7 +19,7 @@ COMPONENT_MODULE = "chat_toolkit.components"
 
 def main(
     chatbot: str, speech_to_text: Optional[str], text_to_speech: Optional[str]
-) -> None:
+) -> Orchestrator:
     """
     Have a conversation in the terminal.
 
@@ -38,7 +29,6 @@ def main(
         importlib.import_module(COMPONENT_MODULE),
         COMPONENTS["chatbot"][chatbot],
     )()
-    orchestrator: Optional[OrchestratorBase]
     kwargs = {"chatbot_component": chatbot_obj}
 
     if text_to_speech:
@@ -54,14 +44,9 @@ def main(
         )()
         kwargs["speech_to_text_component"] = speech_to_text_obj
 
-    if text_to_speech and speech_to_text:
-        orchestrator = SpeechToSpeechOrchestrator(**kwargs)
-    elif speech_to_text:
-        orchestrator = SpeechToTextOrchestrator(**kwargs)
-    else:
-        orchestrator = TextToTextOrchestrator(**kwargs)
-
+    orchestrator = Orchestrator(**kwargs)
     orchestrator.terminal_conversation()
+    return orchestrator
 
 
 if __name__ == "__main__":

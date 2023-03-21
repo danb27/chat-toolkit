@@ -82,5 +82,15 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
         :param audio_file: Open audio file.
         :return: Transcribed text.
         """
-        transcription = openai.Audio.transcribe(self._model, audio_file)
-        return transcription["text"], {}
+        try:
+            transcription = openai.Audio.transcribe(self._model, audio_file)
+            text = transcription["text"]
+        except openai.error.InvalidRequestError as ex:
+            if (
+                str(ex) != "Audio file is too short. Minimum audio "
+                "length is 0.1 seconds."
+            ):
+                raise
+            text = ""
+
+        return text, {}
