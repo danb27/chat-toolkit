@@ -38,7 +38,7 @@ class Pyttsx3TextToSpeech(TextToSpeechComponentBase):
         return {}
 
     @property
-    def cost_estimate_data(self) -> tuple[float, dict]:
+    def _cost_estimate_data(self) -> tuple[float, dict]:
         """
         Property representing cost estimate data for the conversation so
         far. In this case, this is a free package, so there is never a cost.

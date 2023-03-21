@@ -20,7 +20,7 @@ class CostEstimatorBase(ABC):
 
     @property
     @abstractmethod
-    def cost_estimate_data(self) -> tuple[float, dict]:
+    def _cost_estimate_data(self) -> tuple[float, dict]:
         """
         Abstract property that returns the estimated cost in of an object's
         usage so far and any relevant metadata available.
@@ -28,6 +28,16 @@ class CostEstimatorBase(ABC):
         :return: Estimated cost, any applicable metadata.
         """
         pass
+
+    @property
+    def cost_estimate_data(self) -> tuple[float, dict]:
+        """
+        Takes private method and adds any standardized data to the metadata
+        before returning
+        """
+        cost_estimate, metadata = self._cost_estimate_data
+        metadata["pricing_rate"] = self._pricing_rate
+        return cost_estimate, metadata
 
 
 class ComponentBase(CostEstimatorBase, ABC):

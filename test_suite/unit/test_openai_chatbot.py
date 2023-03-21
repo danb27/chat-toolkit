@@ -124,5 +124,5 @@ def test_cost_estimate_data(
 
     cost_estimate, metadata = chatbot.cost_estimate_data
     assert cost_estimate == tokens_used["total_tokens"] / 1000 * pricing_rate
-    assert metadata == tokens_used
+    assert metadata == tokens_used | {"pricing_rate": chatbot._pricing_rate}
     assert chatbot.total_tokens_used == tokens * 3

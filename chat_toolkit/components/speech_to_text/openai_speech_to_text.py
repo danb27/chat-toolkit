@@ -63,7 +63,7 @@ class OpenAISpeechToText(SpeechToTextComponentBase):
         return transcription, metadata
 
     @property
-    def cost_estimate_data(self) -> tuple[float, dict]:
+    def _cost_estimate_data(self) -> tuple[float, dict]:
         """
         Property representing most recent cost estimate based on number of
         tokens charged by OpenAI so far in the object's usage. See notes about

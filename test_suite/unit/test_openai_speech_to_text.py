@@ -73,7 +73,10 @@ def test_cost_estimate_data(
 
     cost_estimate, metadata = speech_to_text.cost_estimate_data
     assert cost_estimate == seconds / 60 * pricing_rate
-    assert metadata == {"seconds_transcribed": seconds}
+    assert metadata == {
+        "seconds_transcribed": seconds,
+        "pricing_rate": speech_to_text._pricing_rate,
+    }
     assert speech_to_text.seconds_transcribed == seconds
 
 
