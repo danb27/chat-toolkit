@@ -153,8 +153,7 @@ same type, or a custom-built one, and still be able to use the orchestrator.
 Basic usage:
 
 ```python
-from chat_toolkit import OpenAIChatBot
-from chat_toolkit import Orchestrator
+from chat_toolkit import OpenAIChatBot, Orchestrator
 
 chat = Orchestrator(OpenAIChatBot())
 chat.terminal_conversation()
@@ -165,8 +164,7 @@ chat.terminal_conversation()
 Basic usage:
 
 ```python
-from chat_toolkit import OpenAIChatBot, OpenAISpeechToText
-from chat_toolkit import Orchestrator
+from chat_toolkit import OpenAIChatBot, OpenAISpeechToText, Orchestrator
 
 chat = Orchestrator(OpenAIChatBot(), OpenAISpeechToText())
 chat.terminal_conversation()
@@ -177,8 +175,7 @@ chat.terminal_conversation()
 Basic usage:
 
 ```python
-from chat_toolkit import OpenAIChatBot, Pyttsx3TextToSpeech
-from chat_toolkit import Orchestrator
+from chat_toolkit import OpenAIChatBot, Orchestrator, Pyttsx3TextToSpeech
 
 chat = Orchestrator(OpenAIChatBot(), text_to_speech_component=Pyttsx3TextToSpeech())
 chat.terminal_conversation()
@@ -190,8 +187,7 @@ chat.terminal_conversation()
 Basic usage:
 
 ```python
-from chat_toolkit import OpenAIChatBot, OpenAISpeechToText, Pyttsx3TextToSpeech
-from chat_toolkit import Orchestrator
+from chat_toolkit import OpenAIChatBot, OpenAISpeechToText, Orchestrator, Pyttsx3TextToSpeech
 
 chat = Orchestrator(OpenAIChatBot(), OpenAISpeechToText(), Pyttsx3TextToSpeech())
 chat.terminal_conversation()
