@@ -13,9 +13,11 @@ class Pyttsx3TextToSpeech(TextToSpeechComponentBase):
     """
 
     def __init__(self, speaking_rate: int = 175):
-        super().__init__(pricing_rate=0.0)
+        super().__init__(
+            model="pyttsx3", pricing_rate=0.0, speaking_rate=speaking_rate
+        )
         self.engine = pyttsx3.init()
-        self.set_pyttsx3_property("rate", speaking_rate)
+        self.set_pyttsx3_property("rate", self.speaking_rate)
 
     def set_pyttsx3_property(self, pyttsx3_property: str, value: Any) -> None:
         """
@@ -25,6 +27,7 @@ class Pyttsx3TextToSpeech(TextToSpeechComponentBase):
         :param value: value to set
         """
         self.engine.setProperty(pyttsx3_property, value)
+        self.engine.runAndWait()
 
     def say(self, text: str) -> dict:
         """

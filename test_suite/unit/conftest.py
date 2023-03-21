@@ -185,10 +185,17 @@ def patched_pyttsx3_text_to_speech_factory() -> Pyttsx3TextToSpeechFactoryType:
 
     def _inner(
         model: Optional[str],
+        speaking_rate: Optional[int] = None,
     ) -> Optional[Pyttsx3TextToSpeech]:
         if not model:
             return None
-        return Pyttsx3TextToSpeech()
+
+        if isinstance(speaking_rate, int):
+            kwargs = {"speaking_rate": speaking_rate}
+        else:
+            kwargs = {}
+
+        return Pyttsx3TextToSpeech(**kwargs)
 
     return _inner
 
